@@ -1,16 +1,17 @@
 import { test, expect, jest } from '@jest/globals';
 import { screen, render } from '@testing-library/react';
+import userEvent from "@testing-library/user-event"
 import ListDisplay from '../ListDisplay';
-import { v4 as uuidv4 } from "uuid";
-//import { list, tickItem } from '../../App';
+
+
 
 test('ListDisplay test', async () => {
     let shoppingList = [
-        { name: "Oranges", completed: false, id: uuidv4() },
-        { name: "Tea", completed: false, id: uuidv4() },
-        { name: "Aubergine", completed: false, id: uuidv4() },
-        { name: "Biscuits", completed: false, id: uuidv4() },
-        { name: "Dishwasher Tablets", completed: false, id: uuidv4() },
+        { name: "Oranges", completed: false },
+        { name: "Tea", completed: false },
+        { name: "Aubergine", completed: false },
+        { name: "Biscuits", completed: false},
+        { name: "Dishwasher Tablets", completed: false}
       ];
 
     const props = {
@@ -18,6 +19,15 @@ test('ListDisplay test', async () => {
         tickItem: jest.fn()
     }
     render(<ListDisplay list={props.list} tickItem={props.tickItem}/>);
-    screen.debug();
+    
+  
+    const li = screen.getByText('Tea')
+    expect(li).toBeInTheDocument()
+    expect(li).toHaveClass('untickedItem', {exact: true})
+    expect(li).toHaveAttribute("class", "untickedItem")
+    // const button = screen.getByRole('button')
+    // userEvent.click(li)
+    // expect(tickItem).toHaveBeenCalled()
+    
 });
 
